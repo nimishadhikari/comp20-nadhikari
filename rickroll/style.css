@@ -1,3 +1,6 @@
+body {
+    background-color: #ff71ce;
+}
 .wrapper {
     display: grid;
     grid-template-columns: 30% 40% auto;
@@ -16,7 +19,7 @@
 }
 
 h1 {
-    background-color: green;
+    background-color: #01cdfe;
     color: #fff;
     font-weight: bold;
     padding: 10px;
@@ -24,8 +27,8 @@ h1 {
     -webkit-border-radius: 5px;
 }
 h3 {
-    background-color: #666;
-    color: #fff;
+    background-color: #b967ff;
+    color: #05ffa1;
     font-weight: bold;
     padding: 10px;
     -moz-border-radius: 5px;

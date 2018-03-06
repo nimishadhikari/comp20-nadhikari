@@ -3,6 +3,7 @@
 var map, infoWindow, markers;
 var jsondata;
 var isVehicle;
+
 /* initMap function that initializes the map, and gets Json data, calling
    all the required functions from it */
 function initMap() {
@@ -100,6 +101,7 @@ function putMarker(map, jsondata, pos, markers, isVehicle) {
 
 
 //Using the Haversine formula from stackoverflow
+// http://stackoverflow.com/questions/14560999/using-the-haversine-formula-in-javascript
 function haversineDistance(coords1, coords2, isMiles) {
   function toRad(x) {
     return x * Math.PI / 180;
