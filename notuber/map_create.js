@@ -1,12 +1,13 @@
 
 /* initializing all the required variables */
-var map, infoWindow, markers;
+var map, infoWindow;
 var jsondata;
 var isVehicle;
 
 /* initMap function that initializes the map, and gets Json data, calling
    all the required functions from it */
 function initMap() {
+        isVehicle = false;
         // placeholder
         var everest = {lat: 27.9878, lng: 86.9250};
         map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -28,6 +29,7 @@ function initMap() {
                 if (request.readyState == 4 && request.status == 200) {
                         apirequest = request.responseText;
                         data = JSON.parse(apirequest);
+                        passengers = data.passengers;
                         if (data.vehicles == null) {
                                 jsondata = data.passengers;
                                 isVehicle = true;
@@ -37,7 +39,8 @@ function initMap() {
                                 jsondata = data.vehicles;
                                 isVehicle = false;
                         }
-                        getlocation(map, marker2, jsondata, markers, isVehicle);
+
+                        getlocation(map, marker2, jsondata,  isVehicle);
                 }
 
         };
@@ -45,7 +48,7 @@ function initMap() {
 }
 
 //a function that gets my current location
-function getlocation(map, marker2, jsondata, markers,isVehicle) {
+function getlocation(map, marker2, jsondata, isVehicle) {
         if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position){
                         pos = {
@@ -54,17 +57,19 @@ function getlocation(map, marker2, jsondata, markers,isVehicle) {
                         };
                         marker2.setPosition(pos);
                         map.setCenter(pos);
-                        putMarker(map, jsondata, pos, isVehicle);
+                        putMarker(map, jsondata, pos,  isVehicle);
+                        return pos;
                 }, function() {
                         alert("geolocation not supported");
                 });
         } else {
                 alert("geolocation not supported");
+                return({lat:0, lng: 0});
         }
 }
 
 //Place a marker and infowindow on each of the data you get from parsing
-function putMarker(map, jsondata, pos, markers, isVehicle) {
+function putMarker(map, jsondata, pos,  isVehicle) {
         mylat = pos.lat;
         mylng = pos.lng;
         myloc = [mylat, mylng];
@@ -72,8 +77,7 @@ function putMarker(map, jsondata, pos, markers, isVehicle) {
                 marker = new google.maps.Marker({
                         position: {lat: jsondata[i].lat,
                                    lng: jsondata[i].lng},
-                        map: map,
-                        icon:'car.png'
+                        map: map
                 });
                 if (isVehicle == true) {
                         marker.setIcon({url: 'icon.png', scaledSize:
