@@ -74,6 +74,8 @@ function putMarker(map, jsondata, pos,  isVehicle, marker2) {
         mylng = pos.lng;
         myloc = [mylat, mylng];
         var distance2 = 20000000000;
+        infowindow = new google.maps.InfoWindow();
+
         for (i = 0; i < jsondata.length && jsondata.length > 0 ; i++) {
                 marker = new google.maps.Marker({
                         position: {lat: jsondata[i].lat,
@@ -95,7 +97,7 @@ function putMarker(map, jsondata, pos,  isVehicle, marker2) {
                 var contentString = "<p> Username: " + jsondata[i].username +
                                     "</p><p> Distance: " + distance +
                                 " miles</p>";
-                infowindow = new google.maps.InfoWindow();
+                //infowindow = new google.maps.InfoWindow();
                 google.maps.event.addListener(marker,'click',
                         (function(marker,contentString,infowindow){
                                 return function() {
@@ -110,13 +112,13 @@ function putMarker(map, jsondata, pos,  isVehicle, marker2) {
                 var name = "vehicle";
         }
         if(distance2 == 20000000000) {
-                var contentString2 = "<p>Username: 6aeJ1jT9cy</p><p> Distance: No "+ name +"s </p>";
+                var contentString2 = "<p>Username: 6aeJ1jT9cy</p>"+
+                                     "<p> Distance: No "+ name +"s </p>";
         } else {
                 var contentString2 = "<p> Username: 6aeJ1jT9cy" +
                         "</p><p> Closest "+ name +" distance: " + distance2 +
                                              " miles</p>";
         }
-        infowindow = new google.maps.InfoWindow();
         google.maps.event.addListener(marker2,'click',
                 (function(marker2,contentString2,infowindow){
                         return function() {
