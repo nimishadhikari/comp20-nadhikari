@@ -40,7 +40,7 @@ function initMap() {
                                 isVehicle = false;
                         }
 
-                        getlocation(map, marker2, jsondata,  isVehicle);
+                        getlocation(map, marker2, jsondata, isVehicle, marker2);
                 }
 
         };
@@ -48,7 +48,7 @@ function initMap() {
 }
 
 //a function that gets my current location
-function getlocation(map, marker2, jsondata, isVehicle) {
+function getlocation(map, marker2, jsondata, isVehicle, marker2) {
         if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position){
                         pos = {
@@ -57,7 +57,7 @@ function getlocation(map, marker2, jsondata, isVehicle) {
                         };
                         marker2.setPosition(pos);
                         map.setCenter(pos);
-                        putMarker(map, jsondata, pos,  isVehicle);
+                        putMarker(map, jsondata, pos,  isVehicle, marker2);
                         return pos;
                 }, function() {
                         alert("geolocation not supported");
@@ -69,10 +69,11 @@ function getlocation(map, marker2, jsondata, isVehicle) {
 }
 
 //Place a marker and infowindow on each of the data you get from parsing
-function putMarker(map, jsondata, pos,  isVehicle) {
+function putMarker(map, jsondata, pos,  isVehicle, marker2) {
         mylat = pos.lat;
         mylng = pos.lng;
         myloc = [mylat, mylng];
+        var distance2 = 20000000000;
         for (i = 0; i < jsondata.length && jsondata.length > 0 ; i++) {
                 marker = new google.maps.Marker({
                         position: {lat: jsondata[i].lat,
@@ -88,7 +89,9 @@ function putMarker(map, jsondata, pos,  isVehicle) {
                 //using haversine formulae
                 distance = haversineDistance(myloc, [latitude, longitude],
                                              true);
-
+                if ( distance < distance2 ) {
+                        distance2 = distance;
+                }
                 var contentString = "<p> Username: " + jsondata[i].username +
                                     "</p><p> Distance: " + distance +
                                 " miles</p>";
@@ -101,11 +104,31 @@ function putMarker(map, jsondata, pos,  isVehicle) {
                                 };
                         })(marker,contentString,infowindow));
         }
+        if (isVehicle == true) {
+                var name = "passenger";
+        } else {
+                var name = "vehicle";
+        }
+        if(distance2 == 20000000000) {
+                var contentString2 = "<p>Username: 6aeJ1jT9cy</p><p> Distance: No "+ name +"s </p>";
+        } else {
+                var contentString2 = "<p> Username: 6aeJ1jT9cy" +
+                        "</p><p> Closest "+ name +" distance: " + distance2 +
+                                             " miles</p>";
+        }
+        infowindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(marker2,'click',
+                (function(marker2,contentString2,infowindow){
+                        return function() {
+                                infowindow.setContent(contentString2);
+                                infowindow.open(map,marker2);
+                        };
+        })(marker2,contentString2,infowindow))
 }
 
 
 //Using the Haversine formula from stackoverflow
-// http://stackoverflow.com/questions/14560999/using-the-haversine-formula-in-javascript
+//http://stackoverflow.com/questions/14560999/using-the-haversine-formula-in-javascript
 function haversineDistance(coords1, coords2, isMiles) {
   function toRad(x) {
     return x * Math.PI / 180;
