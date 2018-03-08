@@ -12,12 +12,13 @@ function initMap() {
         var everest = {lat: 27.9878, lng: 86.9250};
         map = new google.maps.Map(document.getElementById('map_canvas'), {
                 center: everest,
-                zoom: 8
+                zoom: 16
         })
         var marker2 = new google.maps.Marker({
                 position: everest,
                 map: map,
-                icon:{url: 'icon.png', scaledSize: new google.maps.Size(50,65)}
+                icon:{url: 'icon.png', scaledSize: new google.maps.Size(50,65)},
+                animation: google.maps.Animation.DROP
         });
         var Lat, Lng;
         //new XMLHttpRequest, get JSON data
@@ -80,7 +81,8 @@ function putMarker(map, jsondata, pos,  isVehicle, marker2) {
                 marker = new google.maps.Marker({
                         position: {lat: jsondata[i].lat,
                                    lng: jsondata[i].lng},
-                        map: map
+                        map: map,
+                        animation: google.maps.Animation.DROP
                 });
                 if (isVehicle == true) {
                         marker.setIcon({url: 'icon.png', scaledSize:
@@ -97,7 +99,6 @@ function putMarker(map, jsondata, pos,  isVehicle, marker2) {
                 var contentString = "<p> Username: " + jsondata[i].username +
                                     "</p><p> Distance: " + distance +
                                 " miles</p>";
-                //infowindow = new google.maps.InfoWindow();
                 google.maps.event.addListener(marker,'click',
                         (function(marker,contentString,infowindow){
                                 return function() {
