@@ -23,3 +23,9 @@ h1 {
         color: white;
         background-color: black;
 }
+
+p {
+        text-align: left;
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 17px;
+}
