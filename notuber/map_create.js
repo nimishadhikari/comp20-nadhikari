@@ -73,7 +73,7 @@ function getlocation(map, marker2, jsondata, isVehicle, marker2) {
 function putMarker(map, jsondata, pos,  isVehicle, marker2) {
         mylat = pos.lat;
         mylng = pos.lng;
-        myloc = [mylat, mylng];
+        myloc = [mylng, mylat];
         var distance2 = 20000000000;
         infowindow = new google.maps.InfoWindow();
 
@@ -91,7 +91,7 @@ function putMarker(map, jsondata, pos,  isVehicle, marker2) {
                 latitude =  jsondata[i].lat;
                 longitude = jsondata[i].lng;
                 //using haversine formulae
-                distance = haversineDistance(myloc, [latitude, longitude],
+                distance = haversineDistance(myloc, [longitude, latitude],
                                              true);
                 if ( distance < distance2 ) {
                         distance2 = distance;
