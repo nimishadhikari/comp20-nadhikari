@@ -23,7 +23,7 @@ function initMap() {
         var Lat, Lng;
         //new XMLHttpRequest, get JSON data
         request = new XMLHttpRequest();
-        request.open("POST", " https://jordan-marsh.herokuapp.com/rides", true);
+        request.open("POST", "https://afternoon-dusk-64785.herokuapp.com/rides", true);
         request.setRequestHeader("Content-type",
                                  "application/x-www-form-urlencoded");
         request.onreadystatechange = function() {
