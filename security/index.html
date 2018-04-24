@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Assignment 4</title>
+</head>
+<body>
+        <h3>Introduction</h3>
+        <p>
+                The product is a ride sharing API, that has a post and two get requests. It takes in the username, latitude and longitude of either the passenger or the vehicles,
+                and returns data for nearby passangers of vehicles within the last 5 minutes. The product also has a search by username for the vehicles, and a list of all the passenger.
+        </p>
+        <p>
+                I was hired to look at the security vulnerabilities for this API.
+        </p>
+        <h3>Abstract of findings</h3>
+        <p>I found a few vulnerabilities in the design of his website. There was an instance of cross site scripting, not securing personal information and </p>
+
+        <h3>Issues Found</h3>
+        <ol>
+                <li>
+                        Cross side scripting<br>
+                        Location: <a href="https://safe-scrubland-29017.herokuapp.com/rides">https://safe-scrubland-29017.herokuapp.com/rides</a><br>
+                        I could send javascript code through the HTTP POST method, which could be used for malicious intent. I could also do an HTML injection with a similar method.
+                        I used curl with this command:<br>
+                        For cross side scripting:<br>
+                        curl --data "username=< script >alert(2);< /script >gemma&lat=10&lng=20" https://safe-scrubland-29017.herokuapp.com/rides
+                        <img src="xss3.png" width=700px height=700px alt="alert sent through javascript">
+                        <br>
+                        For HTML injection:<br>
+                        curl --data "username=< h1 >YOU HAVE BEEN HACKED!!< /h1 >gemma&lat=10&lng=20" https://safe-scrubland-29017.herokuapp.com/rides
+                        <img src="xss.png" width=700px height=700px alt="alert sent through javascript">
+                        <br>
+                        Severity of the issue: High, you can possibly run any amount of javascript code that manipulates user data or gets personal information about the location of the user. If the user requests are linked to monetary transactions then the user's credit card details can be gained too.
+                        <br>
+                        Resolution: Sanitizing the inputs for username in the POST method can get rid of both the Cross Side Scripting and the HTML Injection errors.
+                </li>
+                <li>
+                        Data is not private<br>
+                        Location: <a href="https://safe-scrubland-29017.herokuapp.com">https://safe-scrubland-29017.herokuapp.com</a><br>
+                        Using the HTTP GET method I can get the username, latitude, longitude and timestamps for every passenger that has logged in. This data can be used to infer daily
+                        habits of users, along with locations which is a massive privacy violation.
+                        I just went to the link given above to find this vulnurability.<br>
+                        <img src="privacy.png" width=700px height=700px alt="alert sent through javascript">
+                        <br>
+                        Severity of the issue: Medium, the data can be used to target individuals or could be sold for nefarious purposes.
+                        <br>
+                        Resolution: Adding authenciation to view the user data can be a fine solution to this problem. Also the data can be encrypted to add another layer of security, instead of having it in plaintext form.
+                </li>
+                <li>
+                        DOS attack<br>
+                        Location: <a href="https://safe-scrubland-29017.herokuapp.com/vehicle.json">https://safe-scrubland-29017.herokuapp.com/vehicle.json</a><br>
+                        Using the HTTP GET method I can get the username, latitude, longitude and timestamps for every passenger that has logged in. This data can be used to infer daily
+                        habits of users, along with locations which is a massive privacy violation.
+                        I just went to the link given above to find this vulnurability.<br>
+                        <img src="xss2.png" width=700px height=700px alt="alert sent through javascript">
+                        <br>
+                        Severity of the issue: Medium, the data can be used to target individuals or could be sold for nefarious purposes.
+                        <br>
+                        Resolution: Adding authenciation to view the user data can be a fine solution to this problem. Also the data can be encrypted to add another layer of security, instead of having it in plaintext form.
+                </li>
+        </ol>
+</body>
+</html>
