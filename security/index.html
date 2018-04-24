@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <meta charset="UTF-8">
         <title>Assignment 4</title>
 </head>
 <body>
@@ -49,15 +50,24 @@
                 <li>
                         DOS attack<br>
                         Location: <a href="https://safe-scrubland-29017.herokuapp.com/vehicle.json">https://safe-scrubland-29017.herokuapp.com/vehicle.json</a><br>
-                        Using the HTTP GET method I can get the username, latitude, longitude and timestamps for every passenger that has logged in. This data can be used to infer daily
-                        habits of users, along with locations which is a massive privacy violation.
-                        I just went to the link given above to find this vulnurability.<br>
+                        Using the HTTP GET method I kept querying this link with different usernames in the query string, which crashed the server.
+                        I must have queried manually about 20 times, which in turn caused the server to crash, so someone with malicious intent can easily write a script which can do that more than 10 times.
+                        I just went to the link given above to find this vulnurability, and i used "?username=JANET" with different names as query strings.<br>
                         <img src="xss2.png" width=700px height=700px alt="alert sent through javascript">
                         <br>
-                        Severity of the issue: Medium, the data can be used to target individuals or could be sold for nefarious purposes.
+                        Severity of the issue: Light, the server can be up and running soon after, and it has an easy fix.
                         <br>
-                        Resolution: Adding authenciation to view the user data can be a fine solution to this problem. Also the data can be encrypted to add another layer of security, instead of having it in plaintext form.
+                        Resolution: The owner can opt for more bandwidth for his website, or upgrade to a package that can handle more. Also taking care of XSS can also help stop hackers from running scripts on the webpage.
                 </li>
         </ol>
+        <h3>Conclusion</h3>
+        The security flaws found here are very common ones, and can be fixed with a little more work on the code. Input sanitization should be of the highest priority,
+        after which the owner should think of measures to secure user data. Then depending on the usage number, the owner can opt for more bandwidth. The owner should also check
+        for any other flaws on the OWASP list of security vulnerabilities.
+        <h3>References</h3>
+        <ul>
+                <li>OWASP Top 10 Vulnurabilities</li>
+                <li><a href="https://stackoverflow.com/questions/15765891/whats-the-scenario-of-stealing-information-with-xss-on-a-post-request">Stackoverflow questions</a></li>
 </body>
+
 </html>
